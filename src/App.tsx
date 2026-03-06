@@ -16,19 +16,6 @@ function App() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
-    // Hide and remove the initial skeleton loader once React is mounted
-    const loader = document.getElementById('initial-loader');
-    if (loader) {
-      setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-          loader.remove();
-        }, 500);
-      }, 100);
-    }
-  }, []);
-
-  useEffect(() => {
     if (reducedMotion) return; // Disable scroll animation if reduced motion
 
     const lenis = new Lenis({
