@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { preloadFrames } from '../utils/frameLoader';
 import metadata from '../../public/frames/frames.json';
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const FrameCanvas: React.FC = () => {

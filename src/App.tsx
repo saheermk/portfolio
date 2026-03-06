@@ -9,6 +9,7 @@ import { Projects } from './sections/Projects';
 import { Contact } from './sections/Contact';
 import './index.css';
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
