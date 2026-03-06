@@ -53,9 +53,49 @@
         "description": "Creative Developer blending design and engineering to create immersive web applications."
       }
     </script>
+    <!-- Preconnect to Google Fonts to speed up DNS and TLS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Load Inter font asynchronously -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="margin: 0; background-color: #000; color: #fff;">
+    <div id="root">
+      <!-- Initial skeleton to prevent blank screen -->
+      <div
+        id="initial-loader"
+        style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          background-color: #000;
+          z-index: 9999;
+          transition: opacity 0.5s ease;
+        "
+      >
+        <h1 style="font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; margin: 0; opacity: 0.1;">
+          SAHEER
+        </h1>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
