@@ -7,11 +7,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
 *.local
-video
+
+# Environment Variables
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -23,3 +28,10 @@ video
 *.njsproj
 *.sln
 *.sw?
+
+# Testing & Linting
+coverage
+.eslintcache
+
+# Video / Assets
+video

@@ -5,52 +5,149 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary Meta Tags -->
-    <title>Saheer | Creative Developer</title>
-    <meta name="title" content="Saheer | Creative Developer" />
+
+
+    <!-- Primary Meta Tags (SEO / GEO / AEO) -->
+    <title>Saheer MK | Full Stack Developer | React, Django & React Native</title>
+    <meta name="title" content="Saheer MK | Full Stack Developer | React, Django & React Native" />
     <meta
       name="description"
-      content="Portfolio of Saheer, a Creative Developer specializing in interactive, high-performance web applications and scalable architectures."
+      content="Saheer MK is a freelance full stack developer from Kerala, India. Works with React, Django, TypeScript, and React Native to build web and mobile apps that hold up in the real world."
     />
     <!-- Keywords for SEO -->
     <meta
       name="keywords"
-      content="Saheer, Creative Developer, Web Developer, Frontend Engineer, React, GSAP, Portfolio, Interaction Design"
+      content="Saheer MK, Full Stack Developer, React developer, Django developer, React Native developer, freelance developer India, TypeScript developer, web app development, mobile app development, Jetpack Compose, WebGL, System Architecture, Kerala"
     />
-    <meta name="author" content="Saheer" />
+    <meta name="author" content="Saheer MK" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://github.com/saheermk/" />
-    <meta property="og:title" content="Saheer | Creative Developer" />
+    <meta property="og:url" content="https://saheermk.pages.dev/" />
+    <meta property="og:title" content="Saheer MK | Full Stack Developer" />
     <meta
       property="og:description"
-      content="Portfolio of Saheer, a Creative Developer specializing in interactive, high-performance web applications and scalable architectures."
+      content="Freelance full stack developer building web and mobile apps with React, Django, and React Native. Based in Kerala, India."
     />
+    <meta property="og:site_name" content="Saheer MK Portfolio" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://github.com/saheermk/" />
-    <meta property="twitter:title" content="Saheer | Creative Developer" />
+    <meta property="twitter:url" content="https://saheermk.pages.dev/" />
+    <meta property="twitter:title" content="Saheer MK | Full Stack Developer" />
     <meta
       property="twitter:description"
-      content="Portfolio of Saheer, a Creative Developer specializing in interactive, high-performance web applications and scalable architectures."
+      content="Freelance full stack developer. React | Django | React Native | TypeScript."
     />
 
-    <!-- JSON-LD for Answer Engine Optimization (AEO) and SEO -->
+    <!-- AI SEO / AEO Optimization -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+    <link rel="canonical" href="https://saheermk.pages.dev/" />
+    
+    <!-- Structured Data for AI Extractability (Dual Schema: WebSite & Person & FAQ) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Saheer",
-        "url": "https://github.com/saheermk/",
-        "jobTitle": "Creative Developer",
-        "sameAs": [
-          "https://in.linkedin.com/in/saheermk",
-          "https://github.com/saheermk/"
-        ],
-        "email": "mailto:mail.saheermk@gmail.com",
-        "description": "Creative Developer blending design and engineering to create immersive web applications."
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://saheermk.pages.dev/#person",
+            "name": "Saheer MK",
+            "alternateName": "saheermk",
+            "url": "https://saheermk.pages.dev/",
+            "jobTitle": "Full Stack Developer",
+            "description": "Saheer MK is a freelance full stack developer from Kerala, India. He works with React, Django, TypeScript, React Native, and Tailwind CSS to build web and mobile apps.",
+            "knowsAbout": [
+              "React", "Django", "TypeScript", "React Native", "Tailwind CSS", "Framer Motion", "Python", "REST APIs", "Cloudflare Pages", "PostgreSQL", "Jetpack Compose", "WebGL"
+            ],
+            "hasOccupation": {
+              "@type": "Occupation",
+              "name": "Full Stack Developer",
+              "occupationLocation": { "@type": "Country", "name": "India" }
+            },
+            "sameAs": [
+              "https://www.linkedin.com/in/saheermk",
+              "https://github.com/saheermk"
+            ],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "mail.saheermk@gmail.com",
+              "contactType": "professional"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://saheermk.pages.dev/#website",
+            "url": "https://saheermk.pages.dev/",
+            "name": "Saheer MK | Full Stack Developer Portfolio",
+            "description": "Portfolio of Saheer MK, a freelance full stack developer who works with React, Django, and React Native.",
+            "author": { "@id": "https://saheermk.pages.dev/#person" }
+          },
+          {
+            "@type": "ItemList",
+            "name": "Projects by Saheer MK",
+            "itemListElement": [
+              {
+                "@type": "SoftwareApplication",
+                "position": 1,
+                "name": "Resulta",
+                "description": "A school exam results platform that runs entirely in the browser using React 18, TypeScript, Tailwind CSS, and Framer Motion. Uses Google Sheets for data, hosted on Cloudflare Pages.",
+                "applicationCategory": "EducationalApplication",
+                "operatingSystem": "Web",
+                "author": { "@id": "https://saheermk.pages.dev/#person" }
+              },
+              {
+                "@type": "SoftwareApplication",
+                "position": 2,
+                "name": "Booko",
+                "description": "A book management system for libraries and schools. Handles cataloging, borrowing, and user accounts. Built with React and Django.",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Web",
+                "author": { "@id": "https://saheermk.pages.dev/#person" }
+              },
+              {
+                "@type": "MobileApplication",
+                "position": 3,
+                "name": "No Sleep",
+                "description": "A small open-source Android app that keeps your screen from turning off. Built with Kotlin and Jetpack Compose.",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Android",
+                "author": { "@id": "https://saheermk.pages.dev/#person" }
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What services does Saheer MK offer?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Saheer MK builds web apps, mobile apps, REST APIs, and dashboards as a freelancer. He mostly works with React, Django, React Native, TypeScript, and Tailwind CSS."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How can I hire Saheer MK?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "You can hire Saheer MK by reaching out directly via the contact section on his portfolio at saheermk.pages.dev."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What tech stack does Saheer MK use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Saheer MK mainly uses React, React Native, Django, Python, TypeScript, Tailwind CSS, and Framer Motion. He also works with REST APIs and deploys projects on Cloudflare Pages."
+                }
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>
