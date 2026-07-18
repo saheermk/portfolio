@@ -62,6 +62,11 @@ Projects are managed via a static array, making it easy to add or remove items.
 * Colors are defined in the Tailwind v4 `@theme` block.
 * To change the primary accent color (currently the vibrant orange `#ff4d00`), simply update the `--color-accent` variable. The glowing orb, text highlights, and selection colors will automatically adapt.
 
+### 5. Managing the CV/Resume
+* **File:** `public/saheermk-cv.pdf`
+* To update the CV that users download, simply replace the `saheermk-cv.pdf` file in the `public` directory with your new PDF, keeping the exact same filename.
+* The "Download CV" button in the Hero section will automatically serve the updated file using a seamless, Apple-style micro-animation.
+
 ---
 
 ## 🚀 Development
