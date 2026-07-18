@@ -2,7 +2,10 @@
 
 A cinematic, highly-optimized developer portfolio built with React 19, Vite, Framer Motion, and React Three Fiber.
 
-![Portfolio Preview](./src/assets/projects/resulta.png) *(Example Project Preview)*
+<p align="center">
+  <video src="./docs/thumbnile.webm" width="100%" autoplay loop muted playsinline></video>
+</p>
+
 
 ## 📚 Documentation
 
