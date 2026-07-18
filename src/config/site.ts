@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Saheer MK",
   shortName: "Saheer",
   role: "Full Stack Developer",
-  email: "mail.saheermk@gmail.com",
+  email: "saheeermk@gmail.com",
   links: {
     github: "https://github.com/saheermk",
     linkedin: "https://linkedin.com/in/saheermk",

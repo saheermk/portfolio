@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial, Sphere, Stars, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import { Parallax } from '../components/Parallax';
+import { DownloadCVButton } from '../components/DownloadCVButton';
 
 const greetings = ["നമസ്കാരം", "Hello", "Bonjour", "Hola", "Ciao", "Hallo", "こんにちは", "안녕하세요", "你好", "Привет", "مرحباً", "नमस्ते", "Welcome"];
 
@@ -147,12 +148,18 @@ const OrbText = ({
   return (
     <motion.div
       ref={ref}
-      style={{ scale: scaleText, opacity: opacityText, display: displayText, transformOrigin: "center center" }}
+      style={{ 
+        scale: scaleText, 
+        opacity: opacityText, 
+        display: displayText, 
+        transformOrigin: "center center",
+        willChange: "transform, opacity" 
+      }}
       className="relative z-10 flex flex-col items-center justify-center pointer-events-none w-full h-screen px-6"
     >
       <div className="text-center">
         {/* Line 1: "I'm" — KodeMono regular */}
-        <div className="font-kode font-normal uppercase text-4xl sm:text-6xl md:text-[80px] leading-[1] text-white tracking-[0.1em] drop-shadow-[0_0_30px_rgba(255,85,0,0.5)]">
+        <div className="font-kode font-normal uppercase text-4xl sm:text-6xl md:text-[80px] leading-[1] text-white tracking-[0.1em] [text-shadow:0_0_30px_rgba(255,85,0,0.5)]">
           <TypewriterText
             text="I'm"
             trigger={canStart}
@@ -162,7 +169,7 @@ const OrbText = ({
           />
         </div>
         {/* Line 2: "Saheer MK" — KodeMono bold */}
-        <div className="font-kode font-bold uppercase text-[12vw] sm:text-7xl md:text-[100px] leading-[1] text-accent tracking-tight drop-shadow-[0_0_60px_rgba(255,85,0,0.9)] mt-2 whitespace-nowrap">
+        <div className="font-kode font-bold uppercase text-[12vw] sm:text-7xl md:text-[100px] leading-[1] text-accent tracking-tight [text-shadow:0_0_60px_rgba(255,85,0,0.9)] mt-2 whitespace-nowrap">
           <TypewriterText
             text="Saheer MK"
             trigger={line1Done}
@@ -350,6 +357,9 @@ export const Hero = () => {
                 <p className="font-sans font-normal text-base md:text-lg leading-relaxed text-gray-400">
                   I mostly work with <strong>React on the frontend, Django on the backend</strong>, TypeScript throughout, and React Native when something needs to run on phones. Landing pages, dashboards, full platforms, whatever the project needs.
                 </p>
+                <div className="mt-2">
+                  <DownloadCVButton />
+                </div>
               </div>
 
               <button 
