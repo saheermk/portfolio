@@ -128,11 +128,13 @@ const OrbText = ({
   opacityText,
   displayText,
   startTyping,
+  name,
 }: {
   scaleText: MotionValue<number>;
   opacityText: MotionValue<number>;
   displayText: MotionValue<"none" | "flex">;
   startTyping: boolean;
+  name: string;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [canStart, setCanStart] = useState(false);
@@ -171,7 +173,7 @@ const OrbText = ({
         {/* Line 2: "Saheer MK" — KodeMono bold */}
         <div className="font-kode font-bold uppercase text-[12vw] sm:text-7xl md:text-[100px] leading-[1] text-accent tracking-tight [text-shadow:0_0_60px_rgba(255,85,0,0.9)] mt-2 whitespace-nowrap">
           <TypewriterText
-            text="Saheer MK"
+            text={name}
             trigger={line1Done}
             speed={80}
             showCursor={true}
@@ -209,10 +211,25 @@ const slowScrollTo = (targetRef: React.RefObject<HTMLElement | null>, duration: 
   requestAnimationFrame(animation);
 };
 
-export const Hero = () => {
+interface HeroProps {
+  config: {
+    name: string;
+    shortName: string;
+    role: string;
+    cvUrl?: string;
+  };
+}
+
+let introHasPlayed = false;
+
+export const Hero = ({ config }: HeroProps) => {
   const orbRef = useRef<HTMLElement>(null);
   const normalHeroRef = useRef<HTMLElement>(null);
-  const [hideIntro, setHideIntro] = useState(false);
+  const [hideIntro, setHideIntro] = useState(() => {
+    if (introHasPlayed) return true;
+    if (typeof window !== 'undefined' && window.scrollY > 50) return true;
+    return false;
+  });
 
   const { scrollYProgress } = useScroll({
     target: orbRef,
@@ -227,6 +244,19 @@ export const Hero = () => {
 
   // Handle the multi-stage automated scroll timeline
   useEffect(() => {
+    const isScrolledDown = typeof window !== 'undefined' && window.scrollY > 50;
+    
+    if (introHasPlayed || isScrolledDown) {
+      // Intro already played or user is scrolled down: ensure body scroll is unlocked, marked played, and overlay hidden
+      introHasPlayed = true;
+      setHideIntro(true);
+      document.body.style.overflow = '';
+      return;
+    }
+
+    // Mark as played
+    introHasPlayed = true;
+
     // Reset to top immediately on load
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden'; // Lock scrolling
@@ -286,7 +316,7 @@ export const Hero = () => {
             </Canvas>
           </div>
 
-          <OrbText scaleText={scaleText} opacityText={opacityText} displayText={displayText} startTyping={hideIntro} />
+          <OrbText scaleText={scaleText} opacityText={opacityText} displayText={displayText} startTyping={hideIntro} name={config.name} />
         </div>
       </section>
 
@@ -305,10 +335,6 @@ export const Hero = () => {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col gap-2 mb-8"
             >
-              <div className="flex items-center gap-4">
-                <span className="w-12 h-[1px] bg-accent"></span>
-                <p className="font-mono text-accent text-sm uppercase tracking-widest">SAHEERMK // PORTFOLIO</p>
-              </div>
             </motion.div>
           </Parallax>
 
@@ -352,13 +378,13 @@ export const Hero = () => {
             >
               <div className="flex flex-col gap-6 max-w-2xl">
                 <p className="font-sans font-normal text-lg md:text-xl leading-relaxed text-gray-300">
-                  <strong className="text-white font-semibold">I'm a freelance full stack developer from Kerala, India.</strong> I build web and mobile apps that work well, load fast, and don't fall apart six months later.
+                  <strong className="text-white font-semibold">I'm a freelance {config.role} from Kerala, India.</strong> I build web and mobile apps that work well, load fast, and don't fall apart six months later.
                 </p>
                 <p className="font-sans font-normal text-base md:text-lg leading-relaxed text-gray-400">
                   I mostly work with <strong>React on the frontend, Django on the backend</strong>, TypeScript throughout, and React Native when something needs to run on phones. Landing pages, dashboards, full platforms, whatever the project needs.
                 </p>
                 <div className="mt-2">
-                  <DownloadCVButton />
+                  <DownloadCVButton cvUrl={config.cvUrl} />
                 </div>
               </div>
 

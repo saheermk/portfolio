@@ -1,15 +1,60 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import { About } from './sections/About';
-import { Projects } from './sections/Projects';
+import { Projects, STATIC_PROJECTS } from './sections/Projects';
 import { Contact } from './sections/Contact';
 import { CursorSpotlight } from './components/CursorSpotlight';
 import { Hero } from './sections/Hero';
-import { siteConfig } from './config/site';
+import { AdminPanel } from './components/AdminPanel';
+import { ProjectDetail } from './components/ProjectDetail';
+import { AllProjects } from './components/AllProjects';
+import { LegalPage } from './components/LegalPage';
+import { siteConfig as staticConfig } from './config/site';
 
 function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [siteConfig, setSiteConfig] = useState(staticConfig);
+
+  // Client-side routing popstate listener
   useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  const isAdmin = currentPath === '/admin';
+  const isAllProjects = currentPath === '/projects';
+  const isPrivacy = currentPath === '/privacy';
+  const isTerms = currentPath === '/terms';
+  const isProjectDetail = currentPath.startsWith('/projects/');
+  const projectDetailId = isProjectDetail ? currentPath.replace('/projects/', '') : null;
+
+  // Fetch site configuration dynamically on mount
+  useEffect(() => {
+    fetch('/api/config')
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error('API config request failed');
+      })
+      .then((data) => {
+        if (data && data.name) {
+          setSiteConfig(data);
+        }
+      })
+      .catch(() => {
+        // Fallback silently to staticConfig
+        console.log('Dynamic config unavailable; using static fallback.');
+      });
+  }, []);
+
+  useEffect(() => {
+    // Only initialize smooth scroll for landing page, not sub-views
+    if (isAdmin || isProjectDetail || isAllProjects || isPrivacy || isTerms) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -25,7 +70,7 @@ function App() {
     return () => {
       lenis.destroy();
     };
-  }, []);
+  }, [isAdmin]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -54,6 +99,50 @@ function App() {
     requestAnimationFrame(animation);
   };
 
+  if (isAdmin) {
+    return (
+      <div className="bg-blackbg min-h-screen text-offwhite font-sans selection:bg-accent selection:text-white">
+        <AdminPanel />
+      </div>
+    );
+  }
+
+  if (isProjectDetail && projectDetailId) {
+    return (
+      <div className="bg-blackbg min-h-screen text-offwhite font-sans selection:bg-accent selection:text-white">
+        <CursorSpotlight />
+        <ProjectDetail projectId={projectDetailId} staticProjects={STATIC_PROJECTS} />
+      </div>
+    );
+  }
+
+  if (isAllProjects) {
+    return (
+      <div className="bg-blackbg min-h-screen text-offwhite font-sans selection:bg-accent selection:text-white">
+        <CursorSpotlight />
+        <AllProjects />
+      </div>
+    );
+  }
+
+  if (isPrivacy) {
+    return (
+      <div className="bg-blackbg min-h-screen text-offwhite font-sans selection:bg-accent selection:text-white">
+        <CursorSpotlight />
+        <LegalPage type="privacy" />
+      </div>
+    );
+  }
+
+  if (isTerms) {
+    return (
+      <div className="bg-blackbg min-h-screen text-offwhite font-sans selection:bg-accent selection:text-white">
+        <CursorSpotlight />
+        <LegalPage type="terms" />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-blackbg min-h-screen text-offwhite font-sans selection:bg-accent selection:text-white overflow-x-hidden">
       <CursorSpotlight />
@@ -73,10 +162,10 @@ function App() {
       </nav>
 
       <main>
-        <Hero />
-        <About />
+        <Hero config={siteConfig} />
+        <About config={siteConfig} />
         <Projects />
-        <Contact />
+        <Contact config={siteConfig} />
       </main>
     </div>
   );

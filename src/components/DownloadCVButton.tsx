@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export const DownloadCVButton = () => {
+export const DownloadCVButton = ({ cvUrl = "/saheermk-cv.pdf" }: { cvUrl?: string }) => {
   const [status, setStatus] = useState<'idle' | 'downloading' | 'done'>('idle');
   const linkRef = useRef<HTMLAnchorElement>(null);
 
@@ -115,7 +115,7 @@ export const DownloadCVButton = () => {
       {/* Hidden download link */}
       <a
         ref={linkRef}
-        href="/saheermk-cv.pdf"
+        href={cvUrl}
         download="SaheerMK-CV.pdf"
         className="hidden"
       />

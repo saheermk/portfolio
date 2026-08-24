@@ -1,13 +1,41 @@
+import { useState, useEffect } from 'react';
 import { Parallax } from '../components/Parallax';
 import { ScrollReveal } from '../components/ScrollReveal';
 
-const SKILLS = [
+const STATIC_SKILLS = [
   'React', 'React Native', 'TypeScript', 'Django', 'Python', 'Tailwind CSS',
   'Framer Motion', 'REST APIs', 'PostgreSQL', 'Cloudflare Pages', 'Git / GitHub',
   'Kotlin', 'Jetpack Compose', 'Vite'
 ];
 
-export const About = () => {
+interface AboutProps {
+  config: {
+    name: string;
+    shortName: string;
+    role: string;
+  };
+}
+
+export const About = ({ config }: AboutProps) => {
+  const [skillsList, setSkillsList] = useState(STATIC_SKILLS);
+
+  useEffect(() => {
+    fetch('/api/skills')
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error('API fetch failed');
+      })
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSkillsList(data);
+        }
+      })
+      .catch(() => {
+        // Fallback silently to static list
+        console.log('Dynamic skills unavailable; using static fallback.');
+      });
+  }, []);
+
   return (
     <section id="about" className="py-24 px-6 md:px-16 lg:px-24 bg-blackbg relative z-10 border-t border-white/10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 md:gap-24">
@@ -17,7 +45,7 @@ export const About = () => {
             {/* Section label */}
             <ScrollReveal delay={0}>
               <div className="flex flex-col gap-2 mb-8">
-                <p className="font-mono text-accent text-xs uppercase tracking-widest">About // Me</p>
+                <p className="font-mono text-accent text-xs uppercase tracking-widest font-bold">About // {config.shortName}</p>
                 <h2 className="font-black text-5xl md:text-[60px] leading-[1.1] font-impact text-offwhite uppercase tracking-tight">
                   I build things <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-400">that actually work.</span>
@@ -29,7 +57,7 @@ export const About = () => {
             <div className="flex flex-col gap-6 text-gray-400 font-sans text-lg leading-relaxed">
               <ScrollReveal delay={0.1}>
                 <p>
-                  I'm <strong className="text-white font-medium">Saheer MK</strong>, a BCA student and freelance full stack developer from Kerala, India. I've been writing code and building things for the web for a few years now.
+                  I'm <strong className="text-white font-medium">{config.name}</strong>, a BCA student and freelance full stack developer from Kerala, India. I've been writing code and building things for the web for a few years now.
                 </p>
               </ScrollReveal>
               <ScrollReveal delay={0.2}>
@@ -69,7 +97,7 @@ export const About = () => {
                   Tools of the trade
                 </h3>
                 <div className="flex flex-wrap gap-3 mt-2">
-                  {SKILLS.map((skill, index) => (
+                  {skillsList.map((skill, index) => (
                     <ScrollReveal
                       key={skill}
                       delay={index * 0.04}

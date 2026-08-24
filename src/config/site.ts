@@ -3,6 +3,8 @@ export const siteConfig = {
   shortName: "Saheer",
   role: "Full Stack Developer",
   email: "saheeermk@gmail.com",
+  cvUrl: "/saheermk-cv.pdf",
+  hasCustomCv: false,
   links: {
     github: "https://github.com/saheermk",
     linkedin: "https://linkedin.com/in/saheermk",

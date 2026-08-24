@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ProjectCard } from '../components/ProjectCard';
 import { Parallax } from '../components/Parallax';
 import { ScrollReveal } from '../components/ScrollReveal';
@@ -8,7 +8,7 @@ import bookoImg from '../assets/projects/booko.png';
 import shareFileImg from '../assets/projects/share-file.png';
 import noSleepImg from '../assets/projects/no-sleep.png';
 
-const PROJECTS = [
+export const STATIC_PROJECTS = [
   {
     id: 'resulta',
     title: 'Resulta',
@@ -48,11 +48,57 @@ const PROJECTS = [
     stack: ['Kotlin', 'Jetpack Compose', 'Android', 'Open Source'],
     link: 'https://github.com/saheermk/no-sleep',
     aspectRatio: 'square' as const,
+  },
+  {
+    id: 'agy-cli',
+    title: 'Agy CLI',
+    category: 'Dev Tools',
+    description: 'A command-line tool designed to streamline developer workflows and environment configuration. Open source and built entirely with Node.js and TypeScript.',
+    image: noSleepImg,
+    stack: ['Node.js', 'TypeScript', 'CLI', 'Commander'],
+    link: 'https://github.com/saheermk',
+    aspectRatio: 'wide' as const,
   }
 ];
 
 export const Projects = () => {
   const gridRef = useRef<HTMLDivElement>(null);
+  const [projectsList, setProjectsList] = useState<any[]>(STATIC_PROJECTS);
+  const [totalCount, setTotalCount] = useState<number>(0);
+
+  useEffect(() => {
+    fetch('/api/projects', {
+      headers: {
+        'X-Limit': '5',
+        'X-Offset': '0'
+      }
+    })
+      .then((res) => {
+        if (res.ok) {
+          const totalHeader = res.headers.get('X-Total-Count');
+          if (totalHeader) {
+            setTotalCount(parseInt(totalHeader, 10));
+          }
+          return res.json();
+        }
+        throw new Error('API fetch failed');
+      })
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          // If database has fewer than 5 projects, pad with items from STATIC_PROJECTS to ensure a balanced grid
+          if (data.length < 5) {
+            const padded = [...data, ...STATIC_PROJECTS.slice(data.length, 5)];
+            setProjectsList(padded);
+          } else {
+            setProjectsList(data.slice(0, 5));
+          }
+        }
+      })
+      .catch(() => {
+        // Fallback silently to static list
+        console.log('Dynamic projects unavailable; using static fallback.');
+      });
+  }, []);
 
   return (
     <section id="projects" className="py-24 px-6 md:px-16 lg:px-24 bg-blackbg">
@@ -80,10 +126,17 @@ export const Projects = () => {
             ref={gridRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px] grid-flow-row-dense relative min-h-[600px]"
           >
-            {PROJECTS.map((project, index) => {
+            {projectsList.slice(0, 5).map((project, index) => {
+              // Hardcode layout spans by index:
+              // Index 0: col-span-2 (Wide)
+              // Index 1: row-span-2 (Tall)
+              // Index 2: col-span-1 (Square)
+              // Index 3: col-span-1 (Square)
+              // Index 4: col-span-2 (Wide)
               const spanClass = 
-                project.aspectRatio === 'wide' ? 'md:col-span-2' : 
-                project.aspectRatio === 'tall' ? 'md:row-span-2' : '';
+                index === 0 ? 'md:col-span-2' : 
+                index === 1 ? 'md:row-span-2' : 
+                index === 4 ? 'md:col-span-2' : '';
               
               // Alternate direction: even index from left, odd from right
               const direction = index % 2 === 0 ? 'left' : 'right';
@@ -103,6 +156,71 @@ export const Projects = () => {
                 </ScrollReveal>
               );
             })}
+
+            {/* Custom "See More Projects" card in the 6th slot */}
+            <ScrollReveal
+              key="see-more"
+              direction="right"
+              distance={50}
+              delay={5 * 0.1}
+              duration={0.8}
+              className="w-full h-full"
+            >
+              <Parallax offset={60} className="h-full">
+                <a
+                  href="/projects"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.history.pushState({}, '', '/projects');
+                    window.dispatchEvent(new Event('popstate'));
+                  }}
+                  className="group block relative overflow-hidden rounded-2xl mesh-glow-card card-neon-border h-full p-8 flex flex-col justify-center items-center gap-4 text-center cursor-pointer hover:shadow-[0_0_50px_rgba(255,77,0,0.25)] transition-all duration-700"
+                >
+                  {/* Glowing grid overlay */}
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none opacity-40 group-hover:opacity-80 transition-opacity duration-700" />
+                  
+                  {/* Glowing background shapes */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 group-hover:scale-125 transition-all duration-700 pointer-events-none" />
+
+                  {/* Spinning Graphic Ring Container */}
+                  <div className="relative w-36 h-36 flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
+                    {/* Rotating text ring */}
+                    <div className="absolute inset-0 animate-[spin_15s_linear_infinite]">
+                      <svg viewBox="0 0 100 100" className="w-full h-full fill-current text-gray-500 group-hover:text-accent transition-colors duration-700">
+                        <path id="explorePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+                        <text className="font-mono text-[8px] uppercase tracking-[0.22em] font-semibold">
+                          <textPath href="#explorePath" startOffset="0%">
+                            • explore all projects • view more 
+                          </textPath>
+                        </text>
+                      </svg>
+                    </div>
+
+                    {/* Center glass button with arrow */}
+                    <div className="relative z-10 w-16 h-16 rounded-full bg-white/5 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-700">
+                      <svg
+                        className="w-6 h-6 text-gray-300 group-hover:text-accent transform group-hover:translate-x-1 transition-all duration-700"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Text label details */}
+                  <div className="flex flex-col gap-2 relative z-10">
+                    <h3 className="font-serif text-3xl font-black text-white group-hover:text-accent tracking-tight transition-colors duration-500">
+                      Explore More
+                    </h3>
+                    <span className="font-mono text-[9px] text-gray-500 uppercase tracking-widest group-hover:text-gray-300 transition-colors duration-500">
+                      {totalCount > 5 ? `Browse All ${totalCount} Projects` : 'Browse Full Gallery'}
+                    </span>
+                  </div>
+                </a>
+              </Parallax>
+            </ScrollReveal>
           </div>
         </Parallax>
       </div>

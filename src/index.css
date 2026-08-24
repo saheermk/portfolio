@@ -85,3 +85,43 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+@keyframes mesh-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.mesh-glow-card {
+  background: linear-gradient(-45deg, #0d0402 0%, #1a0a04 25%, #290e03 50%, #0d0d0d 75%, #080302 100%);
+  background-size: 300% 300%;
+  animation: mesh-gradient 12s ease infinite;
+}
+
+.mesh-glow-card:hover {
+  animation: mesh-gradient 6s ease infinite;
+  background: linear-gradient(-45deg, #1d0904 0%, #2f1307 25%, #3f1505 50%, #140b08 75%, #0c0503 100%);
+  background-size: 300% 300%;
+}
+
+.card-neon-border {
+  position: relative;
+}
+
+.card-neon-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, rgba(255,77,0,0.15), rgba(255,120,0,0.05), rgba(255,77,0,0.15));
+  border-radius: 16px;
+  z-index: -1;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.8;
+}
+
+.card-neon-border:hover::before {
+  background: linear-gradient(90deg, #ff4d00, #ff8000, #ff4d00);
+  opacity: 1;
+  filter: blur(2px);
+}
+
